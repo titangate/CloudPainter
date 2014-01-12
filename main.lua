@@ -15,7 +15,7 @@ for i=1,40 do
 end
 
 function love.load()
-	chr = scene:add_character{x = 100, y = 100, radius = 8, move_force = 500}
+	chr = scene:add_character{x = 100, y = 100, radius = 16, move_force = 800}
 	assert(chr, "character creation failed")
 end
 
