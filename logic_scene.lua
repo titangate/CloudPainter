@@ -1,6 +1,7 @@
 require 'character'
 require 'obstacle'
 require 'collision_masks'
+local Object = require 'middleclass'.Object
 local lp = love.physics
 
 function getBodySpeedSquared(body)
@@ -8,13 +9,17 @@ function getBodySpeedSquared(body)
 	return x*x+y*y
 end
 
-local Scene = {
-	world = lp.newWorld(),
-	characters = {},
-	obstacles = {}
-}
+Scene = Object:subclass'Scene'
 
-Scene.world:setGravity(0,0)
+function Scene:initialize()
+	self.world = lp.newWorld()
+	self.characters = {}
+	self.obstacles = {}
+
+	self.world:setCallbacks( beginContact, nil, nil, nil )
+
+	self.ground = lp.newBody(self.world, 0, 0,'static')
+end
 
 function beginContact(a, b, coll)
 	a = a:getUserData()
@@ -24,10 +29,6 @@ function beginContact(a, b, coll)
 		b:collide(a,coll)
 	end
 end
-
-Scene.world:setCallbacks( beginContact, nil, nil, nil )
-
-Scene.ground = lp.newBody(Scene.world, 0, 0,'static')
 
 function Scene:serialize()
 end
@@ -109,13 +110,18 @@ function Scene:update(dt)
 	end
 end
 
-function Scene:draw()
+function Scene:draw(x,y,w,h)
+	love.graphics.setScissor(x,y,w,h)
+	love.graphics.push()
+	love.graphics.translate(x,y)
 	for _,character in ipairs(self.characters) do
 		character:draw()
 	end
 	for _,obstacle in ipairs(self.obstacles) do
 		obstacle:draw()
 	end
+	love.graphics.pop()
+	love.graphics.setScissor()
 end
 
 return Scene
