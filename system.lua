@@ -39,3 +39,6 @@ function get_direction()
 	end
 	return normalize(dx,dy)
 end
+
+function getAsset(path)
+end

@@ -112,7 +112,14 @@ function newobject:Draw()
 		love.graphics.print("Scene not specified", self.x,self.y)
 		return 
 	end
+
+	love.graphics.setScissor(self.x, self.y, self.width, self.height)
+	love.graphics.push()
+	love.graphics.translate(self.x, self.y)
 	self.scene:draw(self.x, self.y, self.width, self.height)
+
+	love.graphics.pop()
+	love.graphics.setScissor()
 end
 
 function newobject:SetScene(scene)

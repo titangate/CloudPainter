@@ -111,17 +111,12 @@ function Scene:update(dt)
 end
 
 function Scene:draw(x,y,w,h)
-	love.graphics.setScissor(x,y,w,h)
-	love.graphics.push()
-	love.graphics.translate(x,y)
 	for _,character in ipairs(self.characters) do
 		character:draw()
 	end
 	for _,obstacle in ipairs(self.obstacles) do
 		obstacle:draw()
 	end
-	love.graphics.pop()
-	love.graphics.setScissor()
 end
 
 return Scene
