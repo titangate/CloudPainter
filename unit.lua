@@ -22,6 +22,7 @@ end
 
 
 function Unit:draw()
+	love.graphics.setColor(255,255,255)
 	local x,y = self:getPosition()
 	love.graphics.circle('fill', x, y, self.radius)
 end
