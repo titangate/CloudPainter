@@ -6,7 +6,11 @@ local units = {}
 
 local scene = require 'logic_scene'
 
+require 'flying_sword'
+
 local chr
+
+local fs = FlyingSword()
 
 for i=1,40 do
 	for j=1,30 do
@@ -15,8 +19,12 @@ for i=1,40 do
 end
 
 function love.load()
-	chr = scene:add_character{x = 100, y = 100, radius = 16, move_force = 800}
+	chr = scene:addCharacter{x = 100, y = 100, radius = 16, moveForce = 800, collisionType = 'player'}
+	scene:addCharacter{x = 200, y = 100, radius = 16, moveForce = 800, collisionType = 'player'}
+	scene:addCharacter{x = 300, y = 100, radius = 16, moveForce = 800, collisionType = 'enemy'}
 	assert(chr, "character creation failed")
+
+	scene:addObstacle{x = 250, y = 300, w = 400, h = 25}
 end
 
 function love.update(dt)
@@ -25,7 +33,7 @@ function love.update(dt)
 		assert (x and y)
 		chr.intent = {
 			action = "move",
-			intended_speed_squared = 100,
+			intendedSpeedSquared = 100,
 			x = x,
 			y = y
 		}
@@ -33,6 +41,12 @@ function love.update(dt)
 		chr.intent = {}
 	end
 	scene:update(dt)
+end
+
+function love.keypressed(k)
+	if k == ' ' then
+		fs:cast(scene, nil, chr)
+	end
 end
 
 function love.draw()
