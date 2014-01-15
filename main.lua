@@ -2,53 +2,70 @@ require 'system'
 
 local projection_scene = require'projection_scene'
 
-local units = {}
-
-local scene = require 'logic_scene'
-
-require 'flying_sword'
-
-local chr
-
-local fs = FlyingSword()
-
-for i=1,40 do
-	for j=1,30 do
-		table.insert(units,{i * 20, j * 20,0})
-	end
-end
+require 'loveFrames'
+require 'loveFrames_custom'
+tween = require("third-party.tween")
+require 'dev'
+require 'logic_scene'
 
 function love.load()
-	chr = scene:addCharacter{x = 100, y = 100, radius = 16, moveForce = 800, collisionType = 'player'}
-	scene:addCharacter{x = 200, y = 100, radius = 16, moveForce = 800, collisionType = 'player'}
-	scene:addCharacter{x = 300, y = 100, radius = 16, moveForce = 800, collisionType = 'enemy'}
-	assert(chr, "character creation failed")
-
-	scene:addObstacle{x = 250, y = 300, w = 400, h = 25}
 end
 
 function love.update(dt)
-	local x,y = get_direction()
-	if not (x == 0 and y == 0) then
-		assert (x and y)
-		chr.intent = {
-			action = "move",
-			intendedSpeedSquared = 100,
-			x = x,
-			y = y
-		}
-	else
-		chr.intent = {}
-	end
-	scene:update(dt)
-end
-
-function love.keypressed(k)
-	if k == ' ' then
-		fs:cast(scene, nil, chr)
-	end
+	loveframes.update(dt)
+	tween.update(dt)
 end
 
 function love.draw()
-	scene:draw()
+	loveframes.draw()
+end
+
+
+function love.mousepressed(x, y, button)
+	
+	loveframes.mousepressed(x, y, button)
+	
+	local hoverobject = loveframes.hoverobject
+	if hoverobject and hoverobject.menu_example and button == "r" then
+		if hoverobject.menu then
+			hoverobject.menu:Remove()
+			hoverobject.menu = nil
+		end
+		createMenus(x, y)
+	end
+	
+end
+
+function love.mousereleased(x, y, button)
+
+	loveframes.mousereleased(x, y, button)
+
+end
+
+function love.keypressed(key, unicode)
+	
+	loveframes.keypressed(key, unicode)
+	
+	if key == "f1" then
+		local debug = loveframes.config["DEBUG"]
+		loveframes.config["DEBUG"] = not debug
+	elseif key == "f2" then
+		loveframes.util.RemoveAll()
+		demo.CreateToolbar()
+		demo.CreateExamplesList()
+	end
+	
+end
+
+function love.keyreleased(key)
+
+	loveframes.keyreleased(key)
+	
+end
+
+
+if love._version == "0.9.0" then
+	function love.textinput(text)
+		loveframes.textinput(text)
+	end
 end
