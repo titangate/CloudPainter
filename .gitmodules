@@ -1,3 +1,6 @@
 [submodule "LoveFrames"]
 	path = LoveFrames
 	url = https://github.com/NikolaiResokav/LoveFrames
+[submodule "love-loader"]
+	path = love-loader
+	url = git@github.com:kikito/love-loader.git
