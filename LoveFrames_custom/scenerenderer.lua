@@ -64,6 +64,9 @@ function newobject:update(dt)
 		update(self, dt)
 	end
 	
+	if self.scene then
+		self.scene:update(dt,self)
+	end
 end
 
 --[[---------------------------------------------------------
