@@ -116,13 +116,15 @@ function newobject:Draw()
 		return 
 	end
 
-	love.graphics.setScissor(self.x, self.y, self.width, self.height)
 	love.graphics.push()
+	
 	love.graphics.translate(self.x, self.y)
+	--love.graphics.setScissor(self.x, self.y, self.width, self.height)
+	
 	self.scene:draw(self.x, self.y, self.width, self.height)
 
+	--love.graphics.setScissor()
 	love.graphics.pop()
-	love.graphics.setScissor()
 end
 
 function newobject:SetScene(scene)

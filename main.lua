@@ -1,4 +1,4 @@
-require 'system'
+local system = require 'system'
 
 local projection_scene = require'projection_scene'
 
@@ -7,6 +7,7 @@ require 'loveFrames_custom'
 tween = require("third-party.tween")
 require 'dev'
 require 'logic_scene'
+shaders = require 'shaders'
 
 function love.load()
 end
@@ -14,6 +15,7 @@ end
 function love.update(dt)
 	loveframes.update(dt)
 	tween.update(dt)
+	system.update(dt)
 end
 
 function love.draw()
