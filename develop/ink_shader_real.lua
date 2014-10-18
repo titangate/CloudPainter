@@ -1,5 +1,5 @@
 local example = {}
-example.title = "Ink Shader Real"
+example.title = "Cloud painter (GPU)"
 example.category = "Unit development"
 
 local InkEffect = {
